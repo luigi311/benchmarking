@@ -1,0 +1,107 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+// AMD/Nvidia/Intel
+Table manufacturers {
+  id integer [primary key]
+  name varchar
+}
+
+// Manufacturer: AMD
+// Vendor: Asus
+// Name: Strix
+// Model: 7900xt
+Table gpus {
+  id integer [primary key]
+  manufacturer_id integer
+  vendor_id integer
+  name varchar
+  model varchar
+}
+
+// Manufacturer: AMD
+// model: 9800x3d
+Table cpus {
+  id integer [primary key]
+  manufacturer_id integer
+  model varchar
+}
+
+// MSI/Asus/Asrock
+Table vendors {
+  id integer [primary key]
+  name varchar
+}
+
+// AMD driver X.X.X
+Table drivers {
+  id integer [primary key]
+  manufacturer_id integer
+  version varchar
+}
+
+// Application: GTA 5
+// Version: X.X
+Table benchmarks {
+  id integer [primary key]
+  application varchar
+  version varchar
+  settings varchar
+}
+
+Table runs {
+  id integer [primary key]
+  benchmark_id integer  
+  gpu_id integer
+  driver_id integer
+  cpu_id integer
+  run_date date
+}
+
+// composite key (run_id + sample_time_ms)
+Table results {
+  run_id integer [primary key]
+  sample_time_ms integer [primary key]
+  frame_time float
+  cpu_busy float
+  cpu_wait float
+  gpu_latency float
+  gpu_time float
+  gpu_busy float
+  gpu_wait float
+  display_latency float
+  gpu_power float
+  gpu_voltage float
+  gpu_frequency float
+  gpu_temperature float
+  gpu_utilization float
+  gpu_memory_frequency float
+  gpu_memory_size_used bigint
+  gpu_fan_speed_0 integer
+  gpu_fan_speed_1 integer
+  gpu_fan_speed_2 integer
+  gpu_fan_speed_3 integer
+  cpu_utilization float
+  cpu_power float
+  cpu_temperature float
+  cpu_frequency float
+}
+
+
+Ref: "manufacturers"."id" < "drivers"."manufacturer_id"
+
+Ref: "vendors"."id" < "gpus"."vendor_id"
+
+Ref: "manufacturers"."id" < "gpus"."manufacturer_id"
+
+Ref: "manufacturers"."id" < "cpus"."manufacturer_id"
+
+Ref: "drivers"."id" < "runs"."driver_id"
+
+Ref: "cpus"."id" < "runs"."cpu_id"
+
+Ref: "benchmarks"."id" < "runs"."benchmark_id"
+
+Ref: "gpus"."id" < "runs"."gpu_id"
+
+Ref: "runs"."id" < "results"."run_id"
