@@ -32,6 +32,7 @@ def add_manufacturer(name):
     session.add(m)
     session.commit()
     click.echo(f"Created Manufacturer ID={m.id}")
+    session.close()
 
 @cli.command()
 @click.option('--name', 'card_name', prompt='Graphic card vendor name')
@@ -63,6 +64,7 @@ def add_gpu(card_name, model, manufacturer_id, vendor_id):
     session.add(gc)
     session.commit()
     click.echo(f"Created GPU ID={gc.id}")
+    session.close()
 
 @cli.command()
 @click.option('--model', prompt='CPU model')
@@ -79,6 +81,8 @@ def add_cpu(model, manufacturer_id):
     session.add(cpu)
     session.commit()
     click.echo(f"Created CPU ID={cpu.id}")
+    session.close()
+
 
 @cli.command()
 @click.option('--version', prompt='Driver version')
@@ -95,6 +99,7 @@ def add_driver(version, manufacturer_id):
     session.add(d)
     session.commit()
     click.echo(f"Created Driver ID={d.id}")
+    session.close()
 
 @cli.command()
 @click.option('--name', prompt='Vendor name', type=str)
@@ -105,18 +110,21 @@ def add_vendor(name):
     session.add(v)
     session.commit()
     click.echo(f"Created Vendor ID={v.id}")
+    session.close()
 
 @cli.command()
 @click.option('--application', prompt='Application name')
 @click.option('--version', prompt='Application version')
 @click.option('--settings', prompt='Settings')
-def add_benchmark(application, version, settings):
+@click.option('--resolution', prompt='Resolution')
+def add_benchmark(application, version, settings, resolution):
     """Add a new benchmark application"""
     session = get_session()
-    b = Benchmark(application=application, version=version, settings=settings)
+    b = Benchmark(application=application, version=version, settings=settings, resolution=resolution)
     session.add(b)
     session.commit()
     click.echo(f"Created Benchmark ID={b.id}")
+    session.close()
 
 @cli.command()
 @click.option('--benchmark-id', type=int, help='Existing benchmark ID')
@@ -162,6 +170,7 @@ def add_run(benchmark_id, gpu_id, driver_id, cpu_id, run_date, csv_file):
     parse_presetmon(session, csv_file, r.id)
     session.commit()
     click.echo(f"Created Run ID={r.id} and imported results.")
+    session.close()
 
 
 if __name__ == '__main__':
