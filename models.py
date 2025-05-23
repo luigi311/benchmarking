@@ -39,6 +39,7 @@ class Benchmark(Base):
     application = Column(String, nullable=False)
     version = Column(String, nullable=False)
     settings = Column(String)
+    resolution = Column(String)
 
 class Run(Base):
     __tablename__ = 'runs'
