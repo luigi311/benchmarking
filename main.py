@@ -140,7 +140,7 @@ def add_run(benchmark_id, gpu_id, driver_id, cpu_id, run_date, csv_file):
     if benchmark_id is None:
         items = session.query(Benchmark).all()
         for i in items:
-            click.echo(f"{i.id}: {i.application} v{i.version}")
+            click.echo(f"{i.id}: {i.application} v{i.version} {i.resolution} {i.settings}")
         benchmark_id = int(click.prompt('Select benchmark by ID', type=click.Choice([str(i.id) for i in items]), show_choices=False))
     if gpu_id is None:
         items = session.query(GPU).all()
