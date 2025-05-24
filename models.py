@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Column, Integer, String, Float, Date, ForeignKey
+from sqlalchemy import BigInteger, Column, Integer, String, Float, Date, TIMESTAMP, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -54,6 +54,7 @@ class Result(Base):
     __tablename__ = 'results'
     run_id = Column(Integer, ForeignKey('runs.id'), primary_key=True)
     sample_time_ms = Column(Integer, primary_key=True)
+    time_stamped = Column(TIMESTAMP)
     frame_time = Column(Float)
     cpu_busy = Column(Float)
     cpu_wait = Column(Float)
