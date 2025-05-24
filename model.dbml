@@ -11,7 +11,7 @@ Table manufacturers {
 // Vendor: Asus
 // Name: Strix
 // Model: 5090
-Table graphic_cards {
+Table gpus {
   id integer [primary key]
   manufacturer_id integer
   vendor_id integer
@@ -52,7 +52,7 @@ Table benchmarks {
 Table runs {
   id integer [primary key]
   benchmark_id integer  
-  graphic_card_id integer
+  gpu_id integer
   driver_id integer
   cpu_id integer
   run_date date
@@ -91,9 +91,9 @@ Table results {
 
 Ref: "manufacturers"."id" < "drivers"."manufacturer_id"
 
-Ref: "vendors"."id" < "graphic_cards"."vendor_id"
+Ref: "vendors"."id" < "gpus"."vendor_id"
 
-Ref: "manufacturers"."id" < "graphic_cards"."manufacturer_id"
+Ref: "manufacturers"."id" < "gpus"."manufacturer_id"
 
 Ref: "manufacturers"."id" < "cpus"."manufacturer_id"
 
@@ -103,6 +103,6 @@ Ref: "cpus"."id" < "runs"."cpu_id"
 
 Ref: "benchmarks"."id" < "runs"."benchmark_id"
 
-Ref: "graphic_cards"."id" < "runs"."graphic_card_id"
+Ref: "gpus"."id" < "runs"."gpu_id"
 
 Ref: "runs"."id" < "results"."run_id"
